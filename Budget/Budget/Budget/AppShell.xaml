@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:Budget.Views"
+             mc:Ignorable="d"
+             x:Class="Budget.AppShell">
+
+    <TabBar>
+        <Tab Title="Expenses" Icon="">
+            <ShellContent ContentTemplate="{DataTemplate local:PeriodExpensesPage}" />
+        </Tab>
+        <Tab Title="Budgets" Icon="">
+            <ShellContent ContentTemplate="{DataTemplate local:PeriodBudgetsPage}" />
+        </Tab>
+    </TabBar>
+
+</Shell>

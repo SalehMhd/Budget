@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:local="clr-namespace:Budget.Views"
+             x:Class="Budget.Views.PeriodExpensesPage">
+    <ContentPage.Content>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <StackLayout
+            x:Name="CurrentPeriodStack"
+            Grid.Row="0"> 
+
+            <StackLayout.Resources>
+                <ResourceDictionary>
+                    <local:AmountToTxtColorConverter x:Key="MyAmountToTxtColorConverter" />
+                </ResourceDictionary>
+            </StackLayout.Resources>
+
+                <Label Text="{Binding CurrentPeriodBudget.Start, StringFormat='Starts on {0:dd MMM, HH:mm}'}" 
+                   HorizontalOptions="Center"
+                   VerticalOptions="EndAndExpand" />
+
+                <Label Text="{Binding CurrentPeriodBudget.Amount, StringFormat='{0:0.##} €' }"
+                   TextColor="{Binding CurrentPeriodBudget.Amount, Converter={StaticResource MyAmountToTxtColorConverter}}"
+                   HorizontalOptions="Center"
+                   VerticalOptions="CenterAndExpand"
+                   FontSize="100"/>
+
+                <Label Text="{Binding CurrentPeriodBudget.End, StringFormat='Ends on {0:dd MMM, HH:mm}'}" 
+                   HorizontalOptions="Center"
+                   VerticalOptions="EndAndExpand" />
+            
+        </StackLayout>
+
+            <Grid 
+                x:Name="ExpensesGrid"
+                Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+
+                <StackLayout Grid.Row="0">
+
+                    <Label Text="Expenses" 
+                    HorizontalOptions="Start"
+                    VerticalOptions="StartAndExpand" />
+
+                    <!--<StackLayout Orientation="Horizontal">
+
+                        <Label Text="Amount: " 
+                    HorizontalOptions="Start"
+                    VerticalOptions="StartAndExpand" />
+
+                        <Entry Placeholder="Amount Spent"
+                           Keyboard="Telephone"
+                           Text="{Binding SpentEntry}"/>
+
+                        <Entry Placeholder="On what?"
+                           Text="{Binding SpentArticle}"/>
+
+                        <Button Text="Add"
+                            Command="{Binding AddSpentEntryCommand}"/>
+
+                    </StackLayout>-->
+
+                </StackLayout>
+
+                <ListView Grid.Row="1"
+                    ItemsSource="{Binding Expenses}"
+                    RefreshCommand="{Binding LoadExpensesCommand}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Amount, StringFormat='{0:0.##} €' }"
+                                       HorizontalOptions="Start" />
+                                    <Label Text="{Binding Article}"
+                                       HorizontalOptions="Start" />
+                                    <Label Text="{Binding Date, StringFormat='{0:dd MMM}' }"
+                                       HorizontalOptions="End" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </Grid>
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>
