@@ -46,6 +46,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="4*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <StackLayout Grid.Row="0">
@@ -53,24 +54,6 @@
                     <Label Text="Expenses" 
                     HorizontalOptions="Start"
                     VerticalOptions="StartAndExpand" />
-
-                    <!--<StackLayout Orientation="Horizontal">
-
-                        <Label Text="Amount: " 
-                    HorizontalOptions="Start"
-                    VerticalOptions="StartAndExpand" />
-
-                        <Entry Placeholder="Amount Spent"
-                           Keyboard="Telephone"
-                           Text="{Binding SpentEntry}"/>
-
-                        <Entry Placeholder="On what?"
-                           Text="{Binding SpentArticle}"/>
-
-                        <Button Text="Add"
-                            Command="{Binding AddSpentEntryCommand}"/>
-
-                    </StackLayout>-->
 
                 </StackLayout>
 
@@ -93,6 +76,9 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
+                <Button Grid.Row="2"
+                        Text="Add Expense"
+                        Clicked="AddExpense_Clicked"/>
             </Grid>
 
         </Grid>

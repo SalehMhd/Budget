@@ -57,5 +57,10 @@ namespace Budget.Views
             ExpensesViewModel.LoadExpensesCommand.Execute(null);
             //}
         }
+
+        private async void AddExpense_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new NavigationPage(new AddExpensePage(this.ExpensesViewModel)));
+        }
     }
 }
