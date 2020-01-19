@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Budget.Views.AddPeriodBudgetPage">
+    <ContentPage.Content>
+        <StackLayout 
+            VerticalOptions="StartAndExpand" 
+            x:Name="BudgetStack" 
+            Orientation="Vertical">
+
+            <DatePicker Date="{Binding NewStart}" />
+
+            <Label Text="Amount: " 
+                HorizontalOptions="Start"
+                VerticalOptions="StartAndExpand" />
+
+            <Entry Placeholder="Amount Spent"
+                Keyboard="Telephone"
+                Text="{Binding NewAmount}"/>
+
+            <DatePicker Date="{Binding NewEnd}" />
+
+            <Button Text="Add"
+                Command="{Binding AddPeriodBudgetCommand}"/>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

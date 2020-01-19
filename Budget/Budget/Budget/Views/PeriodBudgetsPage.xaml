@@ -6,10 +6,28 @@
              mc:Ignorable="d"
              x:Class="Budget.Views.PeriodBudgetsPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout
+            x:Name="BudgetsListView">
+            <ListView ItemsSource="{Binding PeriodBudgets}"
+                    RefreshCommand="{Binding LoadPeriodBudgetsCommand}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding Start, StringFormat='{0:dd MMM}' }"
+                                       HorizontalOptions="End" />
+                                <Label Text="{Binding Amount, StringFormat='{0:0.##} €' }"
+                                       HorizontalOptions="Start" />
+                                <Label Text="{Binding End, StringFormat='{0:dd MMM}' }"
+                                       HorizontalOptions="End" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Grid.Row="2"
+                    Text="Add Expense"
+                    Clicked="AddPeriodBudget_Clicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
