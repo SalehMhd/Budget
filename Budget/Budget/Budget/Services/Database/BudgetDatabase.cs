@@ -30,7 +30,7 @@ namespace Budget.Services.Database
             {
                 if (!Database.TableMappings.Any(m => m.MappedType.Name == typeof(Expense).Name))
                 {
-                    await Database.CreateTablesAsync(CreateFlags.None, typeof(Expense));//.ConfigureAwait(false);
+                    await Database.CreateTablesAsync(CreateFlags.None, typeof(Expense)).ConfigureAwait(false);
                     //Trace.WriteLine("\n MYDEBUG___ Create: Expense Table");
                     //await InitExpenseAsync();
                     //Trace.WriteLine("\n MYDEBUG___ Insert: Expense Table");
@@ -38,11 +38,20 @@ namespace Budget.Services.Database
 
                 if (!Database.TableMappings.Any(m => m.MappedType.Name == typeof(PeriodBudget).Name))
                 {
-                    await Database.CreateTablesAsync(CreateFlags.None, typeof(PeriodBudget));//.ConfigureAwait(false);
+                    await Database.CreateTablesAsync(CreateFlags.None, typeof(PeriodBudget)).ConfigureAwait(false);
                     //Trace.WriteLine("\n MYDEBUG___ Create: PeriodBudget Table");
                     //await InitPeriodBudgetAsync();
                     //Trace.WriteLine("\n MYDEBUG___ Create: PeriodBudget Table");
                 }
+
+                if (!Database.TableMappings.Any(m => m.MappedType.Name == typeof(Tag).Name))
+                {
+                    await Database.CreateTablesAsync(CreateFlags.None, typeof(Tag)).ConfigureAwait(false);
+                    //Trace.WriteLine("\n MYDEBUG___ Create: PeriodBudget Table");
+                    //await InitPeriodBudgetAsync();
+                    //Trace.WriteLine("\n MYDEBUG___ Create: PeriodBudget Table");
+                }
+
                 Trace.Write("\n MYDEBUG___ Existing Expense Table: " + Database.TableMappings.Any(m => m.MappedType.Name == typeof(Expense).Name));
                 Trace.Write("\n MYDEBUG___ Existing PeriodBudget Table: " + Database.TableMappings.Any(m => m.MappedType.Name == typeof(PeriodBudget).Name));
 
@@ -176,5 +185,21 @@ namespace Budget.Services.Database
             return Database.DeleteAsync(budget);
         }
 
+        public Task<List<Tag>> GetTagsAsync()
+        {
+            return Database.Table<Tag>().ToListAsync();
+        }
+
+        public Task<int> SaveTagAsync(Tag tag)
+        {
+            if (tag.ID != 0)
+            {
+                return Database.UpdateAsync(tag);
+            }
+            else
+            {
+                return Database.InsertAsync(tag);
+            }
+        }
     }
 }
