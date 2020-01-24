@@ -50,7 +50,10 @@ namespace Budget.Views
         {
             base.OnAppearing();
 
-            await BudgetViewModel.LoadCurrentPeriodBudget();
+            if (BudgetViewModel.CurrentPeriodBudget != null)
+            {
+                await BudgetViewModel.LoadCurrentPeriodBudget();
+            }
 
             //if (ExpensesViewModel.Expenses == null)
             //{

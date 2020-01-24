@@ -30,27 +30,28 @@ namespace Budget.Services.Database
             {
                 if (!Database.TableMappings.Any(m => m.MappedType.Name == typeof(Expense).Name))
                 {
-                    await Database.CreateTablesAsync(CreateFlags.None, typeof(Expense)).ConfigureAwait(false);
+                    await Database.CreateTablesAsync(CreateFlags.None, new Type[] { typeof(Expense), typeof(PeriodBudget), typeof(Tag) } ).ConfigureAwait(false);
                     //Trace.WriteLine("\n MYDEBUG___ Create: Expense Table");
-                    //await InitExpenseAsync();
+                    await InitExpenseAsync();
+                    await InitPeriodBudgetAsync();
                     //Trace.WriteLine("\n MYDEBUG___ Insert: Expense Table");
                 }
 
-                if (!Database.TableMappings.Any(m => m.MappedType.Name == typeof(PeriodBudget).Name))
-                {
-                    await Database.CreateTablesAsync(CreateFlags.None, typeof(PeriodBudget)).ConfigureAwait(false);
-                    //Trace.WriteLine("\n MYDEBUG___ Create: PeriodBudget Table");
-                    //await InitPeriodBudgetAsync();
-                    //Trace.WriteLine("\n MYDEBUG___ Create: PeriodBudget Table");
-                }
+                //if (!Database.TableMappings.Any(m => m.MappedType.Name == typeof(PeriodBudget).Name))
+                //{
+                //    await Database.CreateTablesAsync(CreateFlags.None, typeof(PeriodBudget));//.ConfigureAwait(false);
+                //    //Trace.WriteLine("\n MYDEBUG___ Create: PeriodBudget Table");
+                //    //await InitPeriodBudgetAsync();
+                //    //Trace.WriteLine("\n MYDEBUG___ Create: PeriodBudget Table");
+                //}
 
-                if (!Database.TableMappings.Any(m => m.MappedType.Name == typeof(Tag).Name))
-                {
-                    await Database.CreateTablesAsync(CreateFlags.None, typeof(Tag)).ConfigureAwait(false);
-                    //Trace.WriteLine("\n MYDEBUG___ Create: PeriodBudget Table");
-                    //await InitPeriodBudgetAsync();
-                    //Trace.WriteLine("\n MYDEBUG___ Create: PeriodBudget Table");
-                }
+                //if (!Database.TableMappings.Any(m => m.MappedType.Name == typeof(Tag).Name))
+                //{
+                //    await Database.CreateTablesAsync(CreateFlags.None, typeof(Tag));//.ConfigureAwait(false);
+                //    //Trace.WriteLine("\n MYDEBUG___ Create: PeriodBudget Table");
+                //    //await InitPeriodBudgetAsync();
+                //    //Trace.WriteLine("\n MYDEBUG___ Create: PeriodBudget Table");
+                //}
 
                 Trace.Write("\n MYDEBUG___ Existing Expense Table: " + Database.TableMappings.Any(m => m.MappedType.Name == typeof(Expense).Name));
                 Trace.Write("\n MYDEBUG___ Existing PeriodBudget Table: " + Database.TableMappings.Any(m => m.MappedType.Name == typeof(PeriodBudget).Name));

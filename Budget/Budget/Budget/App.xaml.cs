@@ -15,7 +15,7 @@ namespace Budget
         public App()
         {
             InitializeComponent();
-
+            XF.Material.Forms.Material.Init(this);
             MainPage = new AppShell();
 
             //Task.Run(async () =>

@@ -3,21 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:material="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+             xmlns:behaviors="clr-namespace:Budget.Behaviors"
              mc:Ignorable="d"
              x:Class="Budget.Views.AddExpensePage">
     <ContentPage.Content>
         <StackLayout 
-            VerticalOptions="StartAndExpand" 
+            VerticalOptions="EndAndExpand" 
             x:Name="ExpenseStack" 
             Orientation="Vertical">
 
-            <Label Text="Amount: " 
+            <StackLayout
                 HorizontalOptions="Start"
-                VerticalOptions="StartAndExpand" />
+                VerticalOptions="EndAndExpand">
 
-            <Entry Placeholder="Amount Spent"
-                Keyboard="Telephone"
-                Text="{Binding Amount}"/>
+                <material:MaterialTextField
+                HorizontalOptions="Start"
+                VerticalOptions="EndAndExpand"
+                HelperText="Amount"
+                Placeholder="0.00 €"
+                InputType="Numeric"
+                Text="{Binding Amount, StringFormat='{0:0.##} €'}"/>
+
+
+                <material:MaterialDateField
+                    Placeholder="Choose Date"/>
+
+            </StackLayout>
+                
+                
 
             <Entry Placeholder="On what?"
                 Text="{Binding Article}"/>

@@ -21,7 +21,7 @@ namespace Budget.ViewModels
                 this.Expenses.Add(new Expense
                 {
                     ID = 0,
-                    Amount = this.Amount,
+                    Amount = double.Parse(this.Amount),
                     Article = this.Article,
                     Date = this.Date
                 });
@@ -30,7 +30,7 @@ namespace Budget.ViewModels
             
         }
 
-        public double Amount { get; set; }
+        public string Amount { get; set; }
         public string Article { get; set; }
         public DateTime Date { get; set; }
         public Action AddedExpense { get; internal set; }
