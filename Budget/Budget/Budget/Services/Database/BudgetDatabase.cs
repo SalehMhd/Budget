@@ -30,10 +30,10 @@ namespace Budget.Services.Database
             {
                 if (!Database.TableMappings.Any(m => m.MappedType.Name == typeof(Expense).Name))
                 {
-                    await Database.CreateTablesAsync(CreateFlags.None, new Type[] { typeof(Expense), typeof(PeriodBudget), typeof(Tag) } ).ConfigureAwait(false);
+                    await Database.CreateTablesAsync(CreateFlags.None, new Type[] { typeof(Expense), typeof(PeriodBudget), typeof(Tag), typeof(ExpenseTag) } ).ConfigureAwait(false);
                     //Trace.WriteLine("\n MYDEBUG___ Create: Expense Table");
-                    await InitExpenseAsync();
-                    await InitPeriodBudgetAsync();
+                    //await InitExpenseAsync();
+                    //await InitPeriodBudgetAsync();
                     //Trace.WriteLine("\n MYDEBUG___ Insert: Expense Table");
                 }
 
@@ -66,7 +66,6 @@ namespace Budget.Services.Database
             {
                 ID = 0,
                 Amount = 2.2,
-                Article = "Shopping",
                 Date = new DateTime(2020, 1, 13, 0, 0, 1)
             };
 
@@ -74,7 +73,6 @@ namespace Budget.Services.Database
             {
                 ID = 0,
                 Amount = 3.2,
-                Article = "Shopping 1",
                 Date = new DateTime(2020, 1, 14, 0, 0, 1)
             };
 
@@ -82,7 +80,6 @@ namespace Budget.Services.Database
             {
                 ID = 0,
                 Amount = 4.2,
-                Article = "Shopping",
                 Date = new DateTime(2020, 1, 15, 0, 0, 1)
             };
 
@@ -202,5 +199,21 @@ namespace Budget.Services.Database
                 return Database.InsertAsync(tag);
             }
         }
+
+        public Task<Tag> GetTagAsync(int id)
+        {
+            return Database.Table<Tag>().Where(i => i.ID == id).FirstOrDefaultAsync();
+        }
+
+        public Task<List<ExpenseTag>> GetExpenseTagsAsync(int expenseID)
+        {
+            return Database.Table<ExpenseTag>().Where(i => i.ExpenseID == expenseID).ToListAsync();
+        }
+
+        public Task<int> SaveExpenseTagAsync(ExpenseTag etag)
+        {
+            return Database.InsertAsync(etag);
+        }
+
     }
 }

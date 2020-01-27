@@ -5,11 +5,12 @@ using System.Text;
 
 namespace Budget.Model
 {
-    public class Expense
+    public class ExpenseTag
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; } //it was int before
-        public double Amount { get; set; }
-        public DateTime Date { get; set; }
+
+        public int ExpenseID { get; set; }
+        public int TagID { get; set; }
     }
 }

@@ -27,17 +27,37 @@
 
 
                 <material:MaterialDateField
-                    Placeholder="Choose Date"/>
+                    Placeholder="Choose Date"
+                    Date="{Binding Date}"/>
+
+                <ListView ItemsSource="{Binding Tags}" ItemSelected="TagsListView_ItemSelected">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Text}" HorizontalOptions="End" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                
+                <ListView x:Name="TagsListView" ItemSelected="AllTagsListView_ItemSelected">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Text}" HorizontalOptions="End" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
             </StackLayout>
                 
-                
-
-            <Entry Placeholder="On what?"
-                Text="{Binding Article}"/>
-
-            <DatePicker Date="{Binding Date}" />
-
+            
             <Button Text="Add"
                 Command="{Binding AddSpentEntryCommand}"/>
 

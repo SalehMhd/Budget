@@ -1,5 +1,6 @@
 ﻿using Budget.Model;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Budget.ViewModels
 {
     public class PeriodExpensesViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<Expense> Expenses { get; set; }
+        public ObservableCollection<ExpenseItem> Expenses { get; set; }
 
         public Command LoadExpensesCommand { get; set; }
 
@@ -18,7 +19,7 @@ namespace Budget.ViewModels
         {
             LoadExpensesCommand = new Command(async () => await ExecuteLoadExpensesCommand());
 
-            Expenses = new ObservableCollection<Expense>();
+            Expenses = new ObservableCollection<ExpenseItem>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -37,7 +38,22 @@ namespace Budget.ViewModels
             Expenses.Clear();
             foreach(var item in allExpenses)
             {
-                Expenses.Add(item);
+                var expenseTags = await App.Database.GetExpenseTagsAsync(item.ID);
+                var tagsIDs = expenseTags.Select(t => t.TagID);
+                var tags = new List<Tag>();
+                foreach(var tID in tagsIDs)
+                {
+                    var tag = await App.Database.GetTagAsync(tID);
+                    tags.Add(tag);
+                }
+
+                Expenses.Add(new ExpenseItem
+                {
+                    ID = item.ID,
+                    Amount = item.Amount,
+                    Date = item.Date,
+                    Tags = tags
+                });
             }
         }
 
