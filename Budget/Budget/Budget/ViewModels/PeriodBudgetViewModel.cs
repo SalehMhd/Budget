@@ -25,6 +25,9 @@ namespace Budget.ViewModels
         {
             PeriodBudgets = new ObservableCollection<PeriodBudget>();
 
+            NewStart = DateTime.Now;
+            NewEnd = DateTime.Now;
+
             LoadPeriodBudgetsCommand = new Command(async () =>
             {
                 var budgetsList = await App.Database.GetPeriodBudgetsAsync();

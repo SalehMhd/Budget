@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -27,12 +28,16 @@ namespace Budget.ViewModels
             {
                 var expense = new Expense
                 {
-                    ID = 0,
+                    //ID = 0,
                     Amount = double.Parse(this.Amount),
                     Date = this.Date
                 };
 
-                var id = await App.Database.SaveExpenseAsync(expense);
+                await App.Database.SaveExpenseAsync(expense);
+
+                var expenses = await App.Database.GetExpensesAsync();
+                var id = expenses.Max(e => e.ID);
+
                 foreach(var tag in Tags)
                 {
                     var etag = new ExpenseTag

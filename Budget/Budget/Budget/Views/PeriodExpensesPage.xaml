@@ -21,7 +21,6 @@
                 </Grid.RowDefinitions>
 
                 <StackLayout
-                    x:Name="CurrentPeriodStack"
                     Grid.Row="0">
 
                     <StackLayout.Resources>
@@ -34,8 +33,8 @@
                    HorizontalOptions="Center"
                    VerticalOptions="EndAndExpand" />
 
-                    <Label Text="{Binding CurrentPeriodBudget.Amount, StringFormat='{0:0.##} €' }"
-                   TextColor="{Binding CurrentPeriodBudget.Amount, Converter={StaticResource MyAmountToTxtColorConverter}}"
+                    <Label Text="{Binding AmountRest, StringFormat='{0:0.##} €' }"
+                   TextColor="{Binding AmountRest, Converter={StaticResource MyAmountToTxtColorConverter}}"
                    HorizontalOptions="Center"
                    VerticalOptions="CenterAndExpand"
                    FontSize="100"/>
@@ -44,10 +43,13 @@
                    HorizontalOptions="Center"
                    VerticalOptions="EndAndExpand" />
 
+                    <Label Text="{Binding CurrentPeriodBudget.Amount, StringFormat='Total Budget: {0}'}" 
+                   HorizontalOptions="Center"
+                   VerticalOptions="EndAndExpand" />
+
                 </StackLayout>
 
                 <Grid 
-                x:Name="ExpensesGrid"
                 Grid.Row="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="AUto"/>
@@ -92,10 +94,6 @@
                                                 <LinearItemsLayout Orientation="Horizontal"/>
                                             </CollectionView.ItemsLayout>
                                         </CollectionView>
-                                        <CarouselView >
-                                            <CarouselView.ItemTemplate>
-                                            </CarouselView.ItemTemplate>
-                                        </CarouselView>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>

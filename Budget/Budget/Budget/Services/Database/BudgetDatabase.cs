@@ -141,14 +141,14 @@ namespace Budget.Services.Database
 
         public Task<int> SaveExpenseAsync(Expense expense)
         {
-            if (expense.ID != 0)
-            {
-                return Database.UpdateAsync(expense);
-            }
-            else
-            {
+            //if (expense.ID != 0)
+            //{
+            //    return Database.UpdateAsync(expense);
+            //}
+            //else
+            //{
                 return Database.InsertAsync(expense);
-            }
+            //}
         }
 
         public Task<int> DeleteExpenseAsync(Expense expense)
@@ -200,14 +200,9 @@ namespace Budget.Services.Database
             }
         }
 
-        public Task<Tag> GetTagAsync(int id)
+        public Task<List<ExpenseTag>> GetExpenseTagsAsync()
         {
-            return Database.Table<Tag>().Where(i => i.ID == id).FirstOrDefaultAsync();
-        }
-
-        public Task<List<ExpenseTag>> GetExpenseTagsAsync(int expenseID)
-        {
-            return Database.Table<ExpenseTag>().Where(i => i.ExpenseID == expenseID).ToListAsync();
+            return Database.Table<ExpenseTag>().ToListAsync();
         }
 
         public Task<int> SaveExpenseTagAsync(ExpenseTag etag)

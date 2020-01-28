@@ -13,6 +13,10 @@ namespace Budget.ViewModels
     {
         public ObservableCollection<ExpenseItem> Expenses { get; set; }
 
+        public PeriodBudget CurrentPeriodBudget { get; set; }
+
+        public double AmountRest { get; set; }
+
         public Command LoadExpensesCommand { get; set; }
 
         public PeriodExpensesViewModel()
@@ -20,6 +24,7 @@ namespace Budget.ViewModels
             LoadExpensesCommand = new Command(async () => await ExecuteLoadExpensesCommand());
 
             Expenses = new ObservableCollection<ExpenseItem>();
+            CurrentPeriodBudget = new PeriodBudget();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -31,19 +36,31 @@ namespace Budget.ViewModels
         async Task ExecuteLoadExpensesCommand()
         {
             var periodBudgets = await App.Database.GetPeriodBudgetsAsync();
-            var currentPeriod = periodBudgets.FirstOrDefault(bd => bd.Start < DateTime.Now && bd.End > DateTime.Now);
+            var cpb = periodBudgets.FirstOrDefault(bd => bd.Start < DateTime.Now && bd.End > DateTime.Now);
+            if (cpb != null)
+            {
+                CurrentPeriodBudget.Start = cpb.Start;
+                CurrentPeriodBudget.End = cpb.End;
+                CurrentPeriodBudget.Amount = cpb.Amount;
+                OnPropertyChanged("CurrentPeriodBudget");
+            }
 
             var allExpenses = await App.Database.GetExpensesAsync();
+            AmountRest = CurrentPeriodBudget.Amount - allExpenses.Sum(e => e.Amount);
+            OnPropertyChanged("AmountRest");
             //Expenses = new ObservableCollection<Expense>(allExpenses.Where(e => e.Date > currentPeriod.Start && e.Date < currentPeriod.End));
+
             Expenses.Clear();
-            foreach(var item in allExpenses)
+            var expenseTags = await App.Database.GetExpenseTagsAsync();
+            var allTags = await App.Database.GetTagsAsync();
+
+            foreach (var item in allExpenses)
             {
-                var expenseTags = await App.Database.GetExpenseTagsAsync(item.ID);
-                var tagsIDs = expenseTags.Select(t => t.TagID);
+                var tagsIDs = expenseTags.Where(et => et.ExpenseID == item.ID).Select(t => t.TagID); ;
                 var tags = new List<Tag>();
                 foreach(var tID in tagsIDs)
                 {
-                    var tag = await App.Database.GetTagAsync(tID);
+                    var tag = allTags.FirstOrDefault(t => t.ID == tID);
                     tags.Add(tag);
                 }
 

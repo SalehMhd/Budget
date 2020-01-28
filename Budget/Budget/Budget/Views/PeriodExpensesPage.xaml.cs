@@ -37,28 +37,22 @@ namespace Budget.Views
     public partial class PeriodExpensesPage : ContentPage
     {
         public PeriodExpensesViewModel ExpensesViewModel { get; set; }
-        public CurrentPeriodBudgetViewModel BudgetViewModel { get; set; }
+        //public CurrentPeriodBudgetViewModel BudgetViewModel { get; set; }
 
         public PeriodExpensesPage()
         {
             InitializeComponent();
-            ExpensesGrid.BindingContext = ExpensesViewModel = new PeriodExpensesViewModel();
-            CurrentPeriodStack.BindingContext = BudgetViewModel = new CurrentPeriodBudgetViewModel();
+            this.BindingContext = ExpensesViewModel = new PeriodExpensesViewModel();
+            //ExpensesGrid.BindingContext = ExpensesViewModel = new PeriodExpensesViewModel();
+            //CurrentPeriodStack.BindingContext = BudgetViewModel = new CurrentPeriodBudgetViewModel();
         }
 
         protected async override void OnAppearing()
         {
             base.OnAppearing();
 
-            if (BudgetViewModel.CurrentPeriodBudget != null)
-            {
-                await BudgetViewModel.LoadCurrentPeriodBudget();
-            }
-
-            //if (ExpensesViewModel.Expenses == null)
-            //{
             ExpensesViewModel.LoadExpensesCommand.Execute(null);
-            //}
+            //await BudgetViewModel.LoadCurrentPeriodBudget(ExpensesViewModel.Expenses);
         }
 
         private async void AddExpense_Clicked(object sender, EventArgs e)
