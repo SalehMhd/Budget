@@ -29,17 +29,17 @@
                         </ResourceDictionary>
                     </StackLayout.Resources>
 
-                    <Label Text="{Binding CurrentPeriodBudget.Start, StringFormat='Starts on {0:dd MMM, HH:mm}'}" 
+                    <Label Text="{Binding CurrentPeriodBudget.Start, StringFormat='Starts on {0:dd MMM}'}" 
                    HorizontalOptions="Center"
                    VerticalOptions="EndAndExpand" />
 
-                    <Label Text="{Binding AmountRest, StringFormat='{0:0.##} €' }"
+                    <Label Text="{Binding AmountRest, StringFormat='{0:0.##}' }"
                    TextColor="{Binding AmountRest, Converter={StaticResource MyAmountToTxtColorConverter}}"
                    HorizontalOptions="Center"
                    VerticalOptions="CenterAndExpand"
                    FontSize="100"/>
 
-                    <Label Text="{Binding CurrentPeriodBudget.End, StringFormat='Ends on {0:dd MMM, HH:mm}'}" 
+                    <Label Text="{Binding CurrentPeriodBudget.End, StringFormat='Ends on {0:dd MMM}'}" 
                    HorizontalOptions="Center"
                    VerticalOptions="EndAndExpand" />
 
@@ -75,7 +75,7 @@
                                         <Label LineBreakMode="NoWrap"
                                                WidthRequest="100"
                                                HorizontalOptions="FillAndExpand" 
-                                               Text="{Binding Amount, StringFormat='{0:0.##} €' }" />
+                                               Text="{Binding Amount, StringFormat='{0:0.##}' }" />
                                         <Label LineBreakMode="NoWrap"
                                                WidthRequest="200"
                                                HorizontalOptions="FillAndExpand" 

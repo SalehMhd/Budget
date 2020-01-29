@@ -20,14 +20,13 @@
                 <material:MaterialTextField
                 HorizontalOptions="Start"
                 VerticalOptions="EndAndExpand"
-                HelperText="Amount"
-                Placeholder="0.00 €"
+                Placeholder="Enter Amount"
                 InputType="Numeric"
-                Text="{Binding Amount, StringFormat='{0:0.##} €'}"/>
+                Text="{Binding Amount, StringFormat='{0:0.##}'}"/>
 
 
                 <material:MaterialDateField
-                    Placeholder="Choose Date"
+                    Placeholder="Date"
                     Date="{Binding Date}"/>
 
                 <ListView ItemsSource="{Binding Tags}" ItemSelected="TagsListView_ItemSelected">

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:material="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
              mc:Ignorable="d"
              x:Class="Budget.Views.AddPeriodBudgetPage">
     <ContentPage.Content>
@@ -11,17 +12,20 @@
             x:Name="BudgetStack" 
             Orientation="Vertical">
 
-            <DatePicker Date="{Binding NewStart}" />
+            <material:MaterialDateField
+                    Placeholder="Start Date"
+                    Date="{Binding NewStart}"/>
 
-            <Label Text="Amount: " 
+            <material:MaterialTextField
                 HorizontalOptions="Start"
-                VerticalOptions="StartAndExpand" />
+                VerticalOptions="EndAndExpand"
+                Placeholder="Budget"
+                InputType="Numeric"
+                Text="{Binding NewAmount, StringFormat='{0:0.##}'}"/>
 
-            <Entry Placeholder="Amount Spent"
-                Keyboard="Telephone"
-                Text="{Binding NewAmount}"/>
-
-            <DatePicker Date="{Binding NewEnd}" />
+            <material:MaterialDateField
+                    Placeholder="End Date"
+                    Date="{Binding NewEnd}"/>
 
             <Button Text="Add"
                 Command="{Binding AddPeriodBudgetCommand}"/>
