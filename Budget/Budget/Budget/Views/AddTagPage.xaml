@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:material="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
              mc:Ignorable="d"
              x:Class="Budget.Views.AddTagPage">
     <ContentPage.Content>
@@ -11,7 +12,11 @@
             x:Name="TagStack" 
             Orientation="Vertical">
 
-            <Entry Text="{Binding NewText}"/>
+            <material:MaterialTextField
+                HorizontalOptions="Start"
+                VerticalOptions="EndAndExpand"
+                Placeholder="Enter Tag"
+                Text="{Binding NewText}"/>
 
             <Button Text="Add"
                 Command="{Binding AddTagCommand}"/>
