@@ -1,4 +1,5 @@
 ﻿using Budget.Model;
+using Budget.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,7 +26,8 @@ namespace Budget.ViewModels
 
             LoadTagsCommand = new Command(async () =>
             {
-                var tagsList = await App.Database.GetTagsAsync();
+                var providor = DependencyService.Get<IDataProvidorService>();
+                var tagsList = await providor.GetTags();
                 Tags.Clear();
                 foreach (var tag in tagsList)
                 {
@@ -39,7 +41,8 @@ namespace Budget.ViewModels
                 {
                     Text = NewText
                 };
-                await App.Database.SaveTagAsync(tag);
+                var providor = DependencyService.Get<IDataProvidorService>();
+                await providor.AddTag(tag);
                 LoadTagsCommand.Execute(null);
                 TagAdded.Invoke();
             });

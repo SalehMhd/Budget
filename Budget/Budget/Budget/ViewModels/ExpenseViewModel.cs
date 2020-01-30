@@ -1,4 +1,5 @@
 ﻿using Budget.Model;
+using Budget.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,27 +27,15 @@ namespace Budget.ViewModels
             this.Date = DateTime.Now;
             AddSpentEntryCommand = new Command(async () =>
             {
-                var expense = new Expense
+                var expense = new ExpenseItem
                 {
-                    //ID = 0,
                     Amount = double.Parse(this.Amount),
-                    Date = this.Date
+                    Date = this.Date,
+                    Tags = this.Tags.ToList()
                 };
 
-                await App.Database.SaveExpenseAsync(expense);
-
-                var expenses = await App.Database.GetExpensesAsync();
-                var id = expenses.Max(e => e.ID);
-
-                foreach(var tag in Tags)
-                {
-                    var etag = new ExpenseTag
-                    {
-                        ExpenseID = id,
-                        TagID = tag.ID
-                    };
-                    await App.Database.SaveExpenseTagAsync(etag);
-                }
+                var providor = DependencyService.Get<IDataProvidorService>();
+                await providor.AddExpense(expense);
 
                 AddedExpense.Invoke();
             });
@@ -56,7 +45,8 @@ namespace Budget.ViewModels
 
         async Task ExecuteLoadTagsCommand()
         {
-            var tags = await App.Database.GetTagsAsync();
+            var providor = DependencyService.Get<IDataProvidorService>();
+            var tags = await providor.GetTags();
             AllTags.Clear();
             foreach (var tag in tags)
             {

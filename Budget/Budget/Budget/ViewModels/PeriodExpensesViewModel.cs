@@ -1,4 +1,5 @@
 ﻿using Budget.Model;
+using Budget.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -35,7 +36,9 @@ namespace Budget.ViewModels
 
         async Task ExecuteLoadExpensesCommand()
         {
-            var periodBudgets = await App.Database.GetPeriodBudgetsAsync();
+            var dataProvidor = DependencyService.Get<IDataProvidorService>();
+
+            var periodBudgets = await dataProvidor.GetBudgets();
             var cpb = periodBudgets.FirstOrDefault(bd => bd.Start < DateTime.Now && bd.End > DateTime.Now);
             if (cpb != null)
             {
@@ -45,31 +48,20 @@ namespace Budget.ViewModels
                 OnPropertyChanged("CurrentPeriodBudget");
             }
 
-            var allExpenses = await App.Database.GetExpensesAsync();
-            AmountRest = CurrentPeriodBudget.Amount - allExpenses.Sum(e => e.Amount);
+            var expenses = await dataProvidor.GetExpenses();
+            AmountRest = CurrentPeriodBudget.Amount - expenses.Sum(e => e.Amount);
             OnPropertyChanged("AmountRest");
-            //Expenses = new ObservableCollection<Expense>(allExpenses.Where(e => e.Date > currentPeriod.Start && e.Date < currentPeriod.End));
 
             Expenses.Clear();
-            var expenseTags = await App.Database.GetExpenseTagsAsync();
-            var allTags = await App.Database.GetTagsAsync();
 
-            foreach (var item in allExpenses)
+            foreach (var item in expenses)
             {
-                var tagsIDs = expenseTags.Where(et => et.ExpenseID == item.ID).Select(t => t.TagID); ;
-                var tags = new List<Tag>();
-                foreach(var tID in tagsIDs)
-                {
-                    var tag = allTags.FirstOrDefault(t => t.ID == tID);
-                    tags.Add(tag);
-                }
-
                 Expenses.Add(new ExpenseItem
                 {
                     ID = item.ID,
                     Amount = item.Amount,
                     Date = item.Date,
-                    Tags = tags
+                    Tags = item.Tags
                 });
             }
         }

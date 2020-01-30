@@ -1,4 +1,5 @@
 ﻿using Budget.Model;
+using Budget.Services;
 using Budget.Services.Database;
 using System;
 using System.Diagnostics;
@@ -17,7 +18,7 @@ namespace Budget
             InitializeComponent();
             XF.Material.Forms.Material.Init(this);
             MainPage = new AppShell();
-
+            DependencyService.Register<DataProvidor>();
             //Task.Run(async () =>
             //{
             //    Console.WriteLine("\n MYDEBUG___ ExpensesVM: Init Expenses DB");

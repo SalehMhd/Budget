@@ -1,4 +1,5 @@
 ﻿using Budget.Model;
+using Budget.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,7 +31,8 @@ namespace Budget.ViewModels
 
             LoadPeriodBudgetsCommand = new Command(async () =>
             {
-                var budgetsList = await App.Database.GetPeriodBudgetsAsync();
+                var providor = DependencyService.Get<IDataProvidorService>();
+                var budgetsList = await providor.GetBudgets();
                 PeriodBudgets.Clear();
                 foreach (var budget in budgetsList)
                 {
@@ -46,7 +48,8 @@ namespace Budget.ViewModels
                     End = this.NewEnd,
                     Amount = this.NewAmount
                 };
-                await App.Database.SavePeriodBudgetAsync(budget);
+                var providor = DependencyService.Get<IDataProvidorService>();
+                await providor.AddBudget(budget);
                 LoadPeriodBudgetsCommand.Execute(null);
                 PeriodBudgetAdded.Invoke();
             });
