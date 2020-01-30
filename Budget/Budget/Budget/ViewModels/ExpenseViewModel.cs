@@ -37,6 +37,10 @@ namespace Budget.ViewModels
                 var providor = DependencyService.Get<IDataProvidorService>();
                 await providor.AddExpense(expense);
 
+                this.Amount = "";
+                this.Date = DateTime.Now;
+                this.Tags.Clear();
+
                 AddedExpense.Invoke();
             });
             LoadTagsCommand = new Command(async () => await ExecuteLoadTagsCommand());

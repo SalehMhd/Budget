@@ -43,6 +43,9 @@ namespace Budget.ViewModels
                 };
                 var providor = DependencyService.Get<IDataProvidorService>();
                 await providor.AddTag(tag);
+
+                NewText = "";
+
                 LoadTagsCommand.Execute(null);
                 TagAdded.Invoke();
             });

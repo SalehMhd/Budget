@@ -17,7 +17,7 @@ namespace Budget.ViewModels
 
         public DateTime NewStart { get; set; }
         public DateTime NewEnd { get; set; }
-        public double NewAmount { get; set; }
+        public string NewAmount { get; set; }
 
         public Command LoadPeriodBudgetsCommand { get; set; }
         public ICommand AddPeriodBudgetCommand { get; set; }
@@ -46,10 +46,15 @@ namespace Budget.ViewModels
                 {
                     Start = this.NewStart,
                     End = this.NewEnd,
-                    Amount = this.NewAmount
+                    Amount = double.Parse(this.NewAmount)
                 };
                 var providor = DependencyService.Get<IDataProvidorService>();
                 await providor.AddBudget(budget);
+
+                this.NewStart = DateTime.Now;
+                this.NewEnd = DateTime.Now;
+                this.NewAmount = "";
+
                 LoadPeriodBudgetsCommand.Execute(null);
                 PeriodBudgetAdded.Invoke();
             });
